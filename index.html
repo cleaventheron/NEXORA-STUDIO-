@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090817">
+  <meta name="description" content="Nexora Studio — create, manage and grow your creator store.">
+  <title>Nexora Studio — Create. Monetize. Grow.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div id="toast" class="toast" role="status"></div>
+
+  <section id="authView" class="auth-shell">
+    <div class="auth-brand">
+      <div class="brand-mark">N<span>.</span></div>
+      <div><div class="brand-name">NEXORA <span>STUDIO</span></div><div class="brand-tag">CREATE. MONETIZE. GROW.</div></div>
+    </div>
+    <div class="auth-card glass">
+      <div class="eyebrow">YOUR CREATOR BUSINESS STARTS HERE</div>
+      <h1 id="authTitle">Build your <span>digital space.</span></h1>
+      <p class="muted" id="authDescription">Set up your store, share your work and grow your audience.</p>
+      <form id="authForm">
+        <label id="nameLabel" class="hidden">Creator name<input id="authName" autocomplete="name" placeholder="Your name"></label>
+        <label>Email address<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        <label>Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required></label>
+        <button class="btn btn-primary full" id="authSubmit" type="submit">Sign in <span>→</span></button>
+      </form>
+      <button class="text-button" id="authSwitch">New to Nexora? Create an account</button>
+      <div class="auth-note"><span class="dot"></span><span id="authModeNote">Demo mode is active until Supabase is connected.</span></div>
+      <p class="auth-legal">Use a password you do not use elsewhere. Demo accounts are stored only in this browser.</p>
+    </div>
+    <div class="auth-foot">© 2026 Nexora Technologies. Built for creators worldwide.</div>
+  </section>
+
+  <section id="appView" class="app-shell hidden">
+    <aside class="sidebar glass">
+      <a class="brand-lockup" href="#"><div class="brand-mark small">N<span>.</span></div><div><div class="brand-name">NEXORA</div><div class="brand-tag">STUDIO</div></div></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <button class="nav-item active" data-page="overview"><span>◫</span> Overview</button>
+        <button class="nav-item" data-page="products"><span>◇</span> Products</button>
+        <button class="nav-item" data-page="business"><span>▦</span> OGC</button>
+        <button class="nav-item" data-page="store"><span>▣</span> My storefront</button>
+        <button class="nav-item" data-page="analytics"><span>⌁</span> Analytics</button>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Store settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="upgrade-card"><div class="upgrade-icon">✦</div><strong>Your next chapter starts here.</strong><p>Build your creator brand one step at a time.</p></div>
+        <div class="user-mini"><div class="avatar" id="sideAvatar">N</div><div class="user-mini-copy"><strong id="sideName">Creator</strong><span id="sideEmail">creator@email.com</span></div><button id="logoutBtn" title="Log out">↗</button></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div><div class="crumb">NEXORA STUDIO <span>/</span> <b id="pageCrumb">OVERVIEW</b></div><h2 id="pageHeading">Good to see you.</h2></div>
+        <div class="top-actions"><a class="store-link" id="viewStoreTop" href="#" target="_blank" rel="noopener">View store ↗</a><div class="avatar top-avatar" id="topAvatar">N</div></div>
+      </header>
+
+      <section id="page-overview" class="page">
+        <div class="welcome-banner">
+          <div><div class="eyebrow">YOUR CREATOR WORKSPACE</div><h1>Turn what you create<br><span>into something bigger.</span></h1><p>Everything you need to build your own corner of the internet.</p><button class="btn btn-light" data-goto="store">Set up your store <span>→</span></button></div>
+          <div class="banner-orb"><div class="orb-ring ring-a"></div><div class="orb-ring ring-b"></div><div class="orb-core">N<span>.</span></div></div>
+        </div>
+        <div class="section-heading"><div><div class="eyebrow">YOUR PERFORMANCE</div><h3>Store overview</h3></div><span class="period-pill" id="analyticsMode">Catalogue snapshot</span></div>
+        <div class="stats-grid">
+          <article class="stat-card glass"><div class="stat-top"><span>Total products</span><span class="stat-icon">◇</span></div><strong id="statProducts">0</strong><small>Products in your store</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Visible products</span><span class="stat-icon">◉</span></div><strong id="statVisible">0</strong><small>Shown in your storefront</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Hidden products</span><span class="stat-icon">▤</span></div><strong id="statHidden">0</strong><small>Only visible to you</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Store status</span><span class="stat-icon">✧</span></div><strong id="statStoreStatus" class="status-value">Draft</strong><small id="statStoreHint">Not public yet</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel glass"><div class="panel-head"><div><div class="eyebrow">GET STARTED</div><h3>Your launch checklist</h3></div><span class="completion" id="checkProgress">0/3</span></div><div class="check-progress-track"><span id="checkProgressBar"></span></div><div class="check-list">
+            <div class="check-row" id="checkProfile"><span class="check-circle">1</span><div><strong>Set your creator identity</strong><p>Add your name and a short store bio.</p></div><button data-goto="settings">Set up →</button></div>
+            <div class="check-row" id="checkProduct"><span class="check-circle">2</span><div><strong>Add your first product</strong><p>Give your audience something to discover.</p></div><button data-goto="products">Add product →</button></div>
+            <div class="check-row" id="checkPublish"><span class="check-circle">3</span><div><strong>Publish your storefront</strong><p>Make your store visible with a shareable link.</p></div><button data-goto="store">Publish →</button></div>
+          </div></article>
+          <article class="panel glass"><div class="panel-head"><div><div class="eyebrow">QUICK ACTION</div><h3>Make something happen</h3></div></div><div class="quick-actions"><button class="quick-action" data-goto="products"><span class="quick-symbol purple">＋</span><span><strong>Add a product</strong><small>Create a new listing</small></span><b>→</b></button><button class="quick-action" data-goto="store"><span class="quick-symbol blue">↗</span><span><strong>Open your storefront</strong><small>Preview your public page</small></span><b>→</b></button></div><div class="notice"><span>✦</span><p><strong>Payments are coming soon.</strong><br>Your store can be built and published while payment integration is prepared.</p></div></article>
+        </div>
+      </section>
+
+      <section id="page-products" class="page hidden">
+        <div class="page-intro"><div><div class="eyebrow">YOUR CATALOGUE</div><h1>Products</h1><p class="muted">Create and manage what appears in your storefront.</p></div><button class="btn btn-primary" id="addProductBtn">＋ Add product</button></div>
+        <div class="product-toolbar panel glass">
+          <label class="search-field"><span>⌕</span><input id="productSearch" type="search" placeholder="Search your products..."></label>
+          <select id="productFilter" aria-label="Filter products"><option value="all">All products</option><option value="visible">Visible in store</option><option value="hidden">Hidden from store</option></select>
+          <select id="productSort" aria-label="Sort products"><option value="newest">Newest first</option><option value="name">Name A–Z</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select>
+        </div>
+        <div class="product-result-line"><span id="productResultCount">0 products</span><span>Changes save to your current account</span></div>
+        <div id="productGrid" class="product-grid"></div>
+        <div id="emptyProducts" class="empty-state glass"><div class="empty-icon">◇</div><h3>Your first product starts here</h3><p>Add a digital product, service or downloadable resource to your store.</p><button class="btn btn-primary" id="emptyAddBtn">＋ Create your first product</button></div>
+      </section>
+
+      <section id="page-business" class="page hidden">
+        <div class="page-intro"><div><div class="eyebrow">NEXORA STUDIO · FOUNDER CLIENT</div><h1>OGC workspace</h1><p class="muted">One Glove Crew · First Drop 001 operations</p></div><span class="status-pill live">● FREE FOUNDER CLIENT</span></div>
+        <div class="business-banner panel glass"><div><div class="eyebrow">ONE GLOVE CREW</div><h2>Run the drop. Track every order.</h2><p>Keep stock, local sales and online order records together.</p></div><div class="business-mark">OGC</div></div>
+        <div class="stats-grid business-stats">
+          <article class="stat-card glass"><div class="stat-top"><span>Orders recorded</span><span class="stat-icon">▤</span></div><strong id="bizOrders">0</strong><small>Online + local</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Sales recorded</span><span class="stat-icon">R</span></div><strong id="bizSales">R0</strong><small>Recorded order totals, not verified revenue</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Items in stock</span><span class="stat-icon">◇</span></div><strong id="bizStock">0</strong><small>Across all variants</small></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Awaiting payment</span><span class="stat-icon">◷</span></div><strong id="bizPending">0</strong><small>Not marked as verified</small></article>
+        </div>
+        <div class="business-toolbar"><div><h3>Order management</h3><p class="muted">Record sales from either OGC member.</p></div><button class="btn btn-primary" id="newOrderBtn">＋ Record order</button></div>
+        <div class="panel glass business-table-wrap"><div class="business-table-head"><strong>Recent orders</strong><select id="bizOrderFilter" aria-label="Filter orders"><option value="all">All orders</option><option value="pending">Awaiting payment</option><option value="verified">Payment verified</option><option value="completed">Completed</option></select></div><div id="bizOrdersList" class="business-orders"><div class="small-note">No orders recorded yet. Add your first order above.</div></div></div>
+        <div class="business-toolbar inventory-heading"><div><h3>OGC inventory</h3><p class="muted">Track tees, hoodies and accessories by size and colour.</p></div><button class="btn btn-secondary" id="newStockBtn">＋ Add stock item</button></div>
+        <div id="bizInventory" class="business-inventory"></div>
+        <div class="notice business-notice"><span>!</span><p><strong>Payment safety:</strong><br>This workspace records payments; it does not collect money. Keep orders as awaiting payment until cash is received or an EFT/QR payment is independently confirmed. Checkout and live PayFast processing are not connected yet.</p></div>
+        <p class="small-note">Demo mode saves workspace data in this browser only. Cloud saving requires the Nexora Supabase schema to be installed and configured. Proper team invitations are a later step; do not share one account password.</p>
+      </section>
+
+      <section id="page-store" class="page hidden">
+        <div class="page-intro"><div><div class="eyebrow">YOUR PUBLIC PRESENCE</div><h1>My storefront</h1><p class="muted">Your own shareable space on Nexora Studio.</p></div><button class="btn btn-primary" id="publishBtn">Publish store</button></div>
+        <div class="store-preview panel glass">
+          <div class="store-preview-top"><div class="preview-browser"><i></i><i></i><i></i><span>nexora.studio/store/<b id="previewSlug">your-store</b></span></div><span class="status-pill" id="publishStatus">● Draft</span></div>
+          <div class="public-store" id="publicStorePreview"></div>
+        </div>
+        <div class="share-row panel glass"><div><div class="eyebrow">YOUR STORE LINK</div><strong id="storeUrlText">Your store link will appear here</strong></div><button class="btn btn-secondary" id="copyStoreBtn">Copy link ↗</button></div>
+        <p class="small-note">Published stores are publicly viewable. Product checkout is not active yet. In demo mode, store data stays in this browser.</p>
+      </section>
+
+      <section id="page-analytics" class="page hidden">
+        <div class="page-intro"><div><div class="eyebrow">UNDERSTAND YOUR AUDIENCE</div><h1>Analytics</h1><p class="muted">A simple view of activity on your store.</p></div></div>
+        <div class="stats-grid analytics-stats"><article class="stat-card glass"><span>Total products</span><strong id="analyticsProducts">0</strong><small>Your full catalogue</small></article><article class="stat-card glass"><span>Visible products</span><strong id="analyticsVisible">0</strong><small>Shown to visitors</small></article><article class="stat-card glass"><span>Hidden products</span><strong id="analyticsHidden">0</strong><small>Not shown publicly</small></article><article class="stat-card glass"><span>Store status</span><strong id="analyticsPublished" class="status-value">Draft</strong><small id="analyticsStoreHint">Not public yet</small></article></div>
+        <div class="panel glass chart-panel"><div class="panel-head"><div><div class="eyebrow">CATALOGUE HEALTH</div><h3>Product visibility</h3></div><span class="period-pill">Live catalogue</span></div><div class="visibility-meter"><div class="visibility-labels"><span>Visible <strong id="visibleLabel">0</strong></span><span>Hidden <strong id="hiddenLabel">0</strong></span></div><div class="visibility-track"><span id="visibleMeter"></span></div></div><p class="small-note">These figures reflect your saved product listings. Orders, revenue and visitor analytics will be added after payments and event tracking are integrated.</p></div>
+      </section>
+
+      <section id="page-settings" class="page hidden">
+        <div class="page-intro"><div><div class="eyebrow">MAKE IT YOURS</div><h1>Store settings</h1><p class="muted">Shape how people see your creator brand.</p></div></div>
+        <form id="settingsForm" class="settings-card panel glass">
+          <div class="form-section-title"><div class="settings-avatar" id="settingsAvatar">N</div><div><h3>Creator identity</h3><p class="muted">Your public-facing store details.</p></div></div>
+          <label>Creator / brand name<input id="creatorName" maxlength="50" placeholder="Your creator name" required></label>
+          <label>Store address<input id="storeSlug" maxlength="35" placeholder="your-name"><small>Lowercase letters, numbers and hyphens only.</small></label>
+          <label>Short bio<textarea id="creatorBio" maxlength="240" rows="3" placeholder="Tell visitors what you create..."></textarea></label>
+          <label>Accent phrase<input id="creatorTagline" maxlength="70" placeholder="Digital goods made with purpose."></label>
+          <label>Store accent<select id="creatorAccent"><option value="purple">Electric purple</option><option value="blue">Midnight blue</option><option value="mint">Neon mint</option></select><small>Choose the highlight colour used on your public storefront.</small></label>
+          <button class="btn btn-primary" type="submit">Save changes <span>→</span></button>
+        </form>
+      </section>
+      <footer class="main-footer">NEXORA STUDIO <span>·</span> A Nexora Technologies product <span>·</span> Payments coming soon</footer>
+    </main>
+  </section>
+
+  <div id="orderModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle"><div class="modal-backdrop" data-close-order></div><div class="modal-card glass"><div class="modal-head"><div><div class="eyebrow">OGC SALES</div><h2 id="orderModalTitle">Record an order</h2></div><button class="icon-button" data-close-order aria-label="Close">×</button></div><form id="orderForm">
+    <label>Customer name<input id="orderCustomer" maxlength="80" placeholder="Customer name" required></label>
+    <div class="two-fields"><label>Item / product<input id="orderItem" maxlength="100" placeholder="OGC oversized hoodie" required></label><label>Quantity<input id="orderQty" type="number" min="1" max="100" value="1" required></label></div>
+    <div class="two-fields"><label>Total amount (ZAR)<input id="orderAmount" type="number" min="0" step="0.01" placeholder="0.00" required></label><label>Sales channel<select id="orderChannel"><option value="local">Local sale</option><option value="online">Online order</option></select></label></div>
+    <div class="two-fields"><label>Payment method<select id="orderMethod"><option value="cash">Cash</option><option value="eft">EFT</option><option value="qr">QR payment</option><option value="online">Online checkout (manual record)</option></select></label><label>Payment status<select id="orderPayment"><option value="pending">Awaiting verification</option><option value="verified">Verified / received</option></select></label></div>
+    <label>Notes (optional)<textarea id="orderNotes" rows="2" maxlength="250" placeholder="Size, colour, collection details..."></textarea></label><button class="btn btn-primary full" type="submit">Save order</button>
+  </form></div></div>
+  <div id="stockModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="stockModalTitle"><div class="modal-backdrop" data-close-stock></div><div class="modal-card glass"><div class="modal-head"><div><div class="eyebrow">OGC INVENTORY</div><h2 id="stockModalTitle">Add stock item</h2></div><button class="icon-button" data-close-stock aria-label="Close">×</button></div><form id="stockForm">
+    <label>Product name<input id="stockName" maxlength="100" placeholder="OGC First Drop 001 Hoodie" required></label><div class="two-fields"><label>Colour<input id="stockColour" maxlength="40" placeholder="Black" required></label><label>Size<select id="stockSize"><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option><option>One size</option></select></label></div>
+    <div class="two-fields"><label>Price (ZAR)<input id="stockPrice" type="number" min="0" step="0.01" placeholder="0.00" required></label><label>Quantity in stock<input id="stockQty" type="number" min="0" max="500" value="0" required></label></div><button class="btn btn-primary full" type="submit">Save stock item</button>
+  </form></div></div>
+
+  <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" data-close-modal></div><div class="modal-card glass">
+      <div class="modal-head"><div><div class="eyebrow">YOUR CATALOGUE</div><h2 id="modalTitle">Add a product</h2></div><button class="icon-button" data-close-modal aria-label="Close">×</button></div>
+      <form id="productForm">
+        <input id="productId" type="hidden">
+        <label>Product name<input id="productName" maxlength="70" placeholder="e.g. Creator Starter Pack" required></label>
+        <label>Description<textarea id="productDescription" maxlength="300" rows="3" placeholder="What will customers get?" required></textarea></label>
+        <div class="two-fields"><label>Price (ZAR)<input id="productPrice" type="number" min="0" step="0.01" placeholder="99.00" required></label><label>Category<select id="productCategory"><option>Digital download</option><option>Template</option><option>Course</option><option>Service</option><option>Membership</option><option>Other</option></select></label></div>
+        <label>Cover image URL <input id="productImage" type="url" placeholder="https://... (optional)"></label>
+        <label class="toggle-row"><span><strong>Show in storefront</strong><small>Visitors can see this listing.</small></span><input id="productVisible" type="checkbox" checked></label>
+        <button class="btn btn-primary full" type="submit">Save product <span>→</span></button>
+      </form>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
